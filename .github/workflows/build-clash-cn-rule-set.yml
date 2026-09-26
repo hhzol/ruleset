@@ -1,177 +1,207 @@
 name: Build Clash CN Rule Set
 
 on:
-  workflow_dispatch:
+workflow_dispatch:
 
-  schedule:
-    # 每天北京时间 04:00
-    - cron: "22 0 * * *"
+schedule:
+# 每天北京时间 04:00
+- cron: "22 0 * * *"
 
-  push:
-    paths:
-      - ".github/workflows/build-clash-cn-rule-set.yml"
+push:
+paths:
+- ".github/workflows/build-clash-cn-rule-set.yml"
 
 permissions:
-  contents: write
+contents: write
 
 env:
-  CN_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.yaml"
-  MICROSOFT_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.yaml"
-  APPLE_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.yaml"
+MIHOMO_VERSION: "v1.19.0"
 
-  OUTPUT_YAML: "Clash/cn-without-ms-apple.yaml"
+CN_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.yaml"
+MICROSOFT_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.yaml"
+APPLE_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.yaml"
+
+OUTPUT_YAML: "Clash/cn-without-ms-apple.yaml"
+OUTPUT_MRS: "Clash/cn-without-ms-apple.mrs"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+build:
+runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+steps:
+  - name: Checkout
+    uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl python3 python3-yaml
+  - name: Install dependencies
+    run: |
+      sudo apt-get update
+      sudo apt-get install -y curl python3 python3-yaml
 
-      - name: Download MetaCubeX rule sets
-        run: |
-          set -e
+  - name: Download MetaCubeX rule sets
+    run: |
+      set -e
 
-          mkdir -p source_clash Clash
+      mkdir -p source_clash Clash
 
-          curl -fL --retry 5 --retry-delay 2 \
-            "$CN_URL" \
-            -o source_clash/cn.yaml
+      curl -fL --retry 5 --retry-delay 2 \
+        "$CN_URL" \
+        -o source_clash/cn.yaml
 
-          curl -fL --retry 5 --retry-delay 2 \
-            "$MICROSOFT_URL" \
-            -o source_clash/microsoft.yaml
+      curl -fL --retry 5 --retry-delay 2 \
+        "$MICROSOFT_URL" \
+        -o source_clash/microsoft.yaml
 
-          curl -fL --retry 5 --retry-delay 2 \
-            "$APPLE_URL" \
-            -o source_clash/apple.yaml
+      curl -fL --retry 5 --retry-delay 2 \
+        "$APPLE_URL" \
+        -o source_clash/apple.yaml
 
-          echo "===== Source files ====="
-          ls -lh source_clash/
+      echo "===== Source files ====="
+      ls -lh source_clash/
 
-      - name: Remove Microsoft and Apple domains from Clash rules
-        run: |
-          cat > /tmp/remove_clash_domains.py <<'PY'
-          import sys
-          import yaml
+  - name: Remove Microsoft and Apple domains from Clash rules
+    run: |
+      cat > /tmp/remove_clash_domains.py <<'PY'
+      import sys
+      import yaml
 
-          CN_FILE = "source_clash/cn.yaml"
-          MICROSOFT_FILE = "source_clash/microsoft.yaml"
-          APPLE_FILE = "source_clash/apple.yaml"
-          OUTPUT_FILE = "Clash/cn-without-ms-apple.yaml"
+      CN_FILE = "source_clash/cn.yaml"
+      MICROSOFT_FILE = "source_clash/microsoft.yaml"
+      APPLE_FILE = "source_clash/apple.yaml"
+      OUTPUT_FILE = "Clash/cn-without-ms-apple.yaml"
 
-          def load_payload(path):
-              with open(path, "r", encoding="utf-8") as f:
-                  data = yaml.safe_load(f)
-              if isinstance(data, dict):
-                  return data.get("payload", [])
-              elif isinstance(data, list):
-                  return data
-              return []
+      def load_payload(path):
+          with open(path, "r", encoding="utf-8") as f:
+              data = yaml.safe_load(f)
+          if isinstance(data, dict):
+              return data.get("payload", [])
+          elif isinstance(data, list):
+              return data
+          return []
 
-          def parse_rule_item(item):
-              item = str(item).strip()
-              if item.startswith("+."):
-                  return "suffix", item[2:].lower().rstrip(".")
-              elif item.startswith("."):
-                  return "suffix", item[1:].lower().rstrip(".")
-              elif item.startswith("DOMAIN-SUFFIX,"):
-                  return "suffix", item.split(",", 1)[1].strip().lower().rstrip(".")
-              elif item.startswith("DOMAIN,"):
-                  return "exact", item.split(",", 1)[1].strip().lower().rstrip(".")
-              else:
-                  return "exact", item.lower().rstrip(".")
-
-          def collect_excluded_sets(*files):
-              exact_set = set()
-              suffix_set = set()
-              for f in files:
-                  payload = load_payload(f)
-                  for item in payload:
-                      rule_type, domain = parse_rule_item(item)
-                      if rule_type == "exact":
-                          exact_set.add(domain)
-                      else:
-                          suffix_set.add(domain)
-              return exact_set, suffix_set
-
-          def matches_rule(item, excluded_exact, excluded_suffix):
-              rule_type, domain = parse_rule_item(item)
-              
-              if rule_type == "exact":
-                  if domain in excluded_exact:
-                      return True
-                  for sfx in excluded_suffix:
-                      if domain == sfx or domain.endswith("." + sfx):
-                          return True
-              elif rule_type == "suffix":
-                  if domain in excluded_exact:
-                      return True
-                  for sfx in excluded_suffix:
-                      if domain == sfx or domain.endswith("." + sfx):
-                          return True
-              return False
-
-          ms_apple_exact, ms_apple_suffix = collect_excluded_sets(MICROSOFT_FILE, APPLE_FILE)
-
-          with open(CN_FILE, "r", encoding="utf-8") as f:
-              cn_data = yaml.safe_load(f)
-
-          original_payload = cn_data.get("payload", []) if isinstance(cn_data, dict) else cn_data
-          new_payload = []
-          removed_count = 0
-
-          for item in original_payload:
-              if matches_rule(item, ms_apple_exact, ms_apple_suffix):
-                  removed_count += 1
-              else:
-                  new_payload.append(item)
-
-          if isinstance(cn_data, dict):
-              cn_data["payload"] = new_payload
+      def parse_rule_item(item):
+          item = str(item).strip()
+          if item.startswith("+."):
+              return "suffix", item[2:].lower().rstrip(".")
+          elif item.startswith("."):
+              return "suffix", item[1:].lower().rstrip(".")
+          elif item.startswith("DOMAIN-SUFFIX,"):
+              return "suffix", item.split(",", 1)[1].strip().lower().rstrip(".")
+          elif item.startswith("DOMAIN,"):
+              return "exact", item.split(",", 1)[1].strip().lower().rstrip(".")
           else:
-              cn_data = {"payload": new_payload}
+              return "exact", item.lower().rstrip(".")
 
-          with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-              yaml.dump(cn_data, f, allow_unicode=True, sort_keys=False)
+      def collect_excluded_sets(*files):
+          exact_set = set()
+          suffix_set = set()
+          for f in files:
+              payload = load_payload(f)
+              for item in payload:
+                  rule_type, domain = parse_rule_item(item)
+                  if rule_type == "exact":
+                      exact_set.add(domain)
+                  else:
+                      suffix_set.add(domain)
+          return exact_set, suffix_set
 
-          print("========================================")
-          print("Clash CN rule-set processing completed")
-          print("========================================")
-          print(f"Excluded exact domains : {len(ms_apple_exact)}")
-          print(f"Excluded suffixes      : {len(ms_apple_suffix)}")
-          print(f"Removed items          : {removed_count}")
-          print(f"Remaining items        : {len(new_payload)}")
-          print(f"Output                 : {OUTPUT_FILE}")
-          print("========================================")
-          PY
+      def matches_rule(item, excluded_exact, excluded_suffix):
+          rule_type, domain = parse_rule_item(item)
+          
+          if rule_type == "exact":
+              if domain in excluded_exact:
+                  return True
+              for sfx in excluded_suffix:
+                  if domain == sfx or domain.endswith("." + sfx):
+                      return True
+          elif rule_type == "suffix":
+              if domain in excluded_exact:
+                  return True
+              for sfx in excluded_suffix:
+                  if domain == sfx or domain.endswith("." + sfx):
+                      return True
+          return False
 
-          python3 /tmp/remove_clash_domains.py
+      ms_apple_exact, ms_apple_suffix = collect_excluded_sets(MICROSOFT_FILE, APPLE_FILE)
 
-      - name: Generate checksum
-        run: |
-          sha256sum "$OUTPUT_YAML" > Clash/SHA256SUMS
-          cat Clash/SHA256SUMS
+      with open(CN_FILE, "r", encoding="utf-8") as f:
+          cn_data = yaml.safe_load(f)
 
-      - name: Commit generated files
-        run: |
-          set -e
+      original_payload = cn_data.get("payload", []) if isinstance(cn_data, dict) else cn_data
+      new_payload = []
+      removed_count = 0
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      for item in original_payload:
+          if matches_rule(item, ms_apple_exact, ms_apple_suffix):
+              removed_count += 1
+          else:
+              new_payload.append(item)
 
-          git add "$OUTPUT_YAML" Clash/SHA256SUMS
+      if isinstance(cn_data, dict):
+          cn_data["payload"] = new_payload
+      else:
+          cn_data = {"payload": new_payload}
 
-          if git diff --cached --quiet; then
-            echo "No changes."
-            exit 0
-          fi
+      with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+          yaml.dump(cn_data, f, allow_unicode=True, sort_keys=False)
 
-          git commit -m "build: update Clash CN rule-set"
-          git push
+      print("========================================")
+      print("Clash CN rule-set processing completed")
+      print("========================================")
+      print(f"Excluded exact domains : {len(ms_apple_exact)}")
+      print(f"Excluded suffixes      : {len(ms_apple_suffix)}")
+      print(f"Removed items          : {removed_count}")
+      print(f"Remaining items        : {len(new_payload)}")
+      print(f"Output                 : {OUTPUT_FILE}")
+      print("========================================")
+      PY
+
+      python3 /tmp/remove_clash_domains.py
+
+  - name: Download Mihomo
+    run: |
+      set -e
+
+      VERSION="${MIHOMO_VERSION}"
+      ARCH="amd64"
+
+      URL="https://github.com/MetaCubeX/mihomo/releases/download/${VERSION}/mihomo-linux-${ARCH}-${VERSION}.gz"
+
+      curl -fL --retry 5 --retry-delay 2 \
+        "$URL" \
+        -o /tmp/mihomo.gz
+
+      gzip -d /tmp/mihomo.gz
+      chmod +x /tmp/mihomo
+
+      /tmp/mihomo -v
+
+  - name: Compile MRS with Mihomo
+    run: |
+      set -e
+
+      /tmp/mihomo convert-ruleset domain yaml "$OUTPUT_YAML" "$OUTPUT_MRS"
+
+      echo "===== Generated MRS File ====="
+      ls -lh "$OUTPUT_MRS"
+
+  - name: Generate checksum
+    run: |
+      sha256sum "$OUTPUT_YAML" "$OUTPUT_MRS" > Clash/SHA256SUMS
+      cat Clash/SHA256SUMS
+
+  - name: Commit generated files
+    run: |
+      set -e
+
+      git config user.name "github-actions[bot]"
+      git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      git add "$OUTPUT_YAML" "$OUTPUT_MRS" Clash/SHA256SUMS
+
+      if git diff --cached --quiet; then
+        echo "No changes."
+        exit 0
+      fi
+
+      git commit -m "build: update Clash CN rule-set (yaml & mrs)"
+      git push
