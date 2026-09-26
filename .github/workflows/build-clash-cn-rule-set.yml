@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    # 每天北京时间 08:22
+    # 每天北京时间 05:30
     - cron: "30 21 * * *"
 
   push:
