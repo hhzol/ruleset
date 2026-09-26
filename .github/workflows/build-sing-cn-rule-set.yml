@@ -1,4 +1,4 @@
-name: Build CN Rule Set
+name: Build Sing CN Rule Set
 
 on:
   workflow_dispatch:
