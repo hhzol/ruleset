@@ -142,8 +142,15 @@ jobs:
           ms_exact, ms_suffix = collect_rule_set(microsoft)
           apple_exact, apple_suffix = collect_rule_set(apple)
 
-          excluded_exact = ms_exact | apple_exact
-          excluded_suffix = ms_suffix | apple_suffix
+          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com"}
+
+          CUSTOM_EXCLUDED_SUFFIXES = {"cambridge.org"}
+
+          excluded_exact = (ms_exact | apple_exact | {normalize(d) for d in CUSTOM_EXCLUDED_EXACT}
+          )
+
+          excluded_suffix = (ms_suffix | apple_suffix | {normalize(s).lstrip(".") for s in CUSTOM_EXCLUDED_SUFFIXES}
+          )
 
           removed_domain = 0
           removed_domain_suffix = 0
