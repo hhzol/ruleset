@@ -1,0 +1,332 @@
+```yaml
+name: Build CN Rule Set
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # 每天北京时间 04:00
+    - cron: "0 20 * * *"
+
+  push:
+    paths:
+      - ".github/workflows/build-cn-rule-set.yml"
+
+permissions:
+  contents: write
+
+env:
+  SING_BOX_VERSION: "1.14.1"
+
+  CN_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/cn.json"
+  MICROSOFT_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/microsoft.json"
+  APPLE_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/apple.json"
+
+  OUTPUT_JSON: "cn-without-ms-apple.json"
+  OUTPUT_SRS: "cn-without-ms-apple.srs"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl jq python3
+
+      - name: Download MetaCubeX rule sets
+        run: |
+          set -e
+
+          mkdir -p source
+
+          curl -fL --retry 5 --retry-delay 2 \
+            "$CN_URL" \
+            -o source/cn.json
+
+          curl -fL --retry 5 --retry-delay 2 \
+            "$MICROSOFT_URL" \
+            -o source/microsoft.json
+
+          curl -fL --retry 5 --retry-delay 2 \
+            "$APPLE_URL" \
+            -o source/apple.json
+
+          echo "===== Source files ====="
+          ls -lh source/
+
+      - name: Validate source JSON
+        run: |
+          set -e
+
+          jq empty source/cn.json
+          jq empty source/microsoft.json
+          jq empty source/apple.json
+
+          echo "JSON validation passed."
+
+      - name: Remove Microsoft and Apple domains
+        run: |
+          cat > /tmp/remove_domains.py <<'PY'
+          import json
+          import sys
+
+          CN_FILE = "source/cn.json"
+          MICROSOFT_FILE = "source/microsoft.json"
+          APPLE_FILE = "source/apple.json"
+          OUTPUT_FILE = "cn-without-ms-apple.json"
+
+
+          def load_json(path):
+              with open(path, "r", encoding="utf-8") as f:
+                  return json.load(f)
+
+
+          def normalize(domain):
+              return domain.lower().rstrip(".")
+
+
+          def collect_rule_set(data):
+              exact = set()
+              suffix = set()
+
+              for rule in data.get("rules", []):
+                  for domain in rule.get("domain", []):
+                      exact.add(normalize(domain))
+
+                  for domain in rule.get("domain_suffix", []):
+                      suffix.add(normalize(domain).lstrip("."))
+
+              return exact, suffix
+
+
+          def matches_domain(domain, exact, suffix):
+              domain = normalize(domain)
+
+              if domain in exact:
+                  return True
+
+              for item in suffix:
+                  if domain == item:
+                      return True
+
+                  if domain.endswith("." + item):
+                      return True
+
+              return False
+
+
+          def matches_suffix(domain, exact, suffix):
+              domain = normalize(domain).lstrip(".")
+
+              if domain in exact:
+                  return True
+
+              for item in suffix:
+                  if domain == item:
+                      return True
+
+                  if domain.endswith("." + item):
+                      return True
+
+              return False
+
+
+          cn = load_json(CN_FILE)
+          microsoft = load_json(MICROSOFT_FILE)
+          apple = load_json(APPLE_FILE)
+
+          ms_exact, ms_suffix = collect_rule_set(microsoft)
+          apple_exact, apple_suffix = collect_rule_set(apple)
+
+          excluded_exact = ms_exact | apple_exact
+          excluded_suffix = ms_suffix | apple_suffix
+
+          removed_domain = 0
+          removed_domain_suffix = 0
+
+          for rule in cn.get("rules", []):
+
+              # -------------------------------------------------
+              # domain
+              # -------------------------------------------------
+              if "domain" in rule:
+                  old = rule["domain"]
+
+                  new = [
+                      domain
+                      for domain in old
+                      if not matches_domain(
+                          domain,
+                          excluded_exact,
+                          excluded_suffix
+                      )
+                  ]
+
+                  removed_domain += len(old) - len(new)
+
+                  if new:
+                      rule["domain"] = new
+                  else:
+                      del rule["domain"]
+
+
+              # -------------------------------------------------
+              # domain_suffix
+              #
+              # 只有当整个 CN suffix 落在 Microsoft / Apple
+              # suffix 中时才删除。
+              #
+              # 避免错误删除更大的 CN 域名范围。
+              # -------------------------------------------------
+              if "domain_suffix" in rule:
+                  old = rule["domain_suffix"]
+
+                  new = [
+                      domain
+                      for domain in old
+                      if not matches_suffix(
+                          domain,
+                          excluded_exact,
+                          excluded_suffix
+                      )
+                  ]
+
+                  removed_domain_suffix += len(old) - len(new)
+
+                  if new:
+                      rule["domain_suffix"] = new
+                  else:
+                      del rule["domain_suffix"]
+
+
+          # 删除已经没有内容的 rule
+          cn["rules"] = [
+              rule
+              for rule in cn.get("rules", [])
+              if rule
+          ]
+
+
+          with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+              json.dump(
+                  cn,
+                  f,
+                  ensure_ascii=False,
+                  indent=2
+              )
+              f.write("\n")
+
+
+          print("========================================")
+          print("CN rule-set processing completed")
+          print("========================================")
+          print(f"Microsoft exact domains : {len(ms_exact)}")
+          print(f"Microsoft suffixes      : {len(ms_suffix)}")
+          print(f"Apple exact domains     : {len(apple_exact)}")
+          print(f"Apple suffixes          : {len(apple_suffix)}")
+          print("----------------------------------------")
+          print(f"Removed domain          : {removed_domain}")
+          print(f"Removed domain_suffix   : {removed_domain_suffix}")
+          print("----------------------------------------")
+          print(f"Output                  : {OUTPUT_FILE}")
+          print("========================================")
+          PY
+
+          python3 /tmp/remove_domains.py
+
+      - name: Validate generated JSON
+        run: |
+          set -e
+
+          jq empty "$OUTPUT_JSON"
+
+          echo "Generated JSON:"
+          ls -lh "$OUTPUT_JSON"
+
+          echo "Rule count:"
+          jq '.rules | length' "$OUTPUT_JSON"
+
+      - name: Download sing-box
+        run: |
+          set -e
+
+          VERSION="${SING_BOX_VERSION}"
+          ARCH="amd64"
+
+          URL="https://github.com/SagerNet/sing-box/releases/download/v${VERSION}/sing-box-${VERSION}-linux-${ARCH}.tar.gz"
+
+          curl -fL --retry 5 --retry-delay 2 \
+            "$URL" \
+            -o /tmp/sing-box.tar.gz
+
+          tar -xzf /tmp/sing-box.tar.gz -C /tmp
+
+          install -m 755 \
+            "/tmp/sing-box-${VERSION}-linux-${ARCH}/sing-box" \
+            ./sing-box
+
+          ./sing-box version
+
+      - name: Compile SRS with sing-box
+        run: |
+          set -e
+
+          ./sing-box rule-set compile \
+            --output "$OUTPUT_SRS" \
+            "$OUTPUT_JSON"
+
+          echo "Compiled SRS:"
+          ls -lh "$OUTPUT_SRS"
+
+      - name: Verify SRS
+        run: |
+          set -e
+
+          test -s "$OUTPUT_JSON"
+          test -s "$OUTPUT_SRS"
+
+          echo "===== JSON ====="
+          ls -lh "$OUTPUT_JSON"
+
+          echo "===== SRS ====="
+          ls -lh "$OUTPUT_SRS"
+
+          echo "===== sing-box ====="
+          ./sing-box version
+
+      - name: Generate checksum
+        run: |
+          sha256sum \
+            "$OUTPUT_JSON" \
+            "$OUTPUT_SRS" \
+            > SHA256SUMS
+
+          cat SHA256SUMS
+
+      - name: Commit generated files
+        run: |
+          set -e
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            "$OUTPUT_JSON" \
+            "$OUTPUT_SRS" \
+            SHA256SUMS
+
+          if git diff --cached --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+
+          git commit \
+            -m "build: update CN rule-set"
+
+          git push
+```
