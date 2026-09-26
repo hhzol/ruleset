@@ -77,7 +77,7 @@ jobs:
           CN_FILE = "source/cn.json"
           MICROSOFT_FILE = "source/microsoft.json"
           APPLE_FILE = "source/apple.json"
-          OUTPUT_FILE = "cn-without-ms-apple.json"
+          OUTPUT_FILE = "Sing/cn-without-ms-apple.json"
 
 
           def load_json(path):
