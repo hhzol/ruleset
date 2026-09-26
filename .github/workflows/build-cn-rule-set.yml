@@ -21,7 +21,7 @@ env:
   MICROSOFT_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/microsoft.json"
   APPLE_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/apple.json"
 
-  OUTPUT_JSON: "cn-without-ms-apple.json"
+  OUTPUT_JSON: "Sing/cn-without-ms-apple.json"
   OUTPUT_SRS: "Sing/cn-without-ms-apple.srs"
 
 jobs:
