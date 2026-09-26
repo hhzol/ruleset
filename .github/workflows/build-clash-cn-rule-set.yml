@@ -123,6 +123,18 @@ jobs:
 
           ms_apple_exact, ms_apple_suffix = collect_excluded_sets(MICROSOFT_FILE, APPLE_FILE)
 
+          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com"}
+
+          CUSTOM_EXCLUDED_SUFFIXES = {"cambridge.org"}
+
+          for domain in CUSTOM_EXCLUDED_EXACT:
+              _, parsed_domain = parse_rule_item(domain)
+              ms_apple_exact.add(parsed_domain)
+
+          for domain in CUSTOM_EXCLUDED_SUFFIXES:
+              _, parsed_domain = parse_rule_item(domain)
+              ms_apple_suffix.add(parsed_domain)
+
           with open(CN_FILE, "r", encoding="utf-8") as f:
               cn_data = yaml.safe_load(f)
 
