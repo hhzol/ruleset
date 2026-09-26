@@ -1,4 +1,3 @@
-```yaml
 name: Build CN Rule Set
 
 on:
@@ -329,4 +328,3 @@ jobs:
             -m "build: update CN rule-set"
 
           git push
-```
