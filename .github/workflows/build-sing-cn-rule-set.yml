@@ -300,11 +300,7 @@ jobs:
 
       - name: Generate checksum
         run: |
-          sha256sum \
-            "$OUTPUT_JSON" \
-            "$OUTPUT_SRS" \
-            > Sing/SHA256SUMS
-
+          sha256sum "$OUTPUT_JSON" "$OUTPUT_SRS" > Sing/SHA256SUMS
           cat Sing/SHA256SUMS
 
       - name: Commit generated files
@@ -313,11 +309,7 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add \
-            "$OUTPUT_JSON" \
-            "$OUTPUT_SRS" \
-            SHA256SUMS
+          git add "$OUTPUT_JSON" "$OUTPUT_SRS" Sing/SHA256SUMS
 
           if git diff --cached --quiet; then
             echo "No changes."
