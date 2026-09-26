@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "nba.com"
+      ],
+      "domain_suffix": [
+        "tunein.com",
+        "radiotime.com",
+        "tunein.cdnstream1.com",
+        "nbcsportsbayarea.com",
+        "nbcuni.com",
+        "nbcume.sc.omtrdc.net",
+        "media.sportradar.com",
+        "nbcbayarea.com",
+        "telemundoareadelabahia.com",
+        "nbcsports.com",
+        "launchdarkly.com",
+        "theplatform.com",
+        "simplecast.com",
+        "nelreports.net",
+        "paramount.com",
+        "plutotv.net",
+        "pluto.tv"
+      ],
+      "domain_keyword": [
+        "pluto"
+      ] 
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+name: Compile Sing Rule Sets
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  SING_BOX_VERSION: "1.14.1"
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare directories
+        run: |
+          set -e
+
+          mkdir -p Sing
+
+      - name: Download sing-box
+        run: |
+          set -e
+
+          VERSION="$SING_BOX_VERSION"
+
+          echo "Downloading sing-box v${VERSION}..."
+
+          curl -fL \
+            -o sing-box.tar.gz \
+            "https://github.com/SagerNet/sing-box/releases/download/v${VERSION}/sing-box-${VERSION}-linux-amd64.tar.gz"
+
+          tar -xzf sing-box.tar.gz
+
+          mv "sing-box-${VERSION}-linux-amd64/sing-box" ./sing-box
+
+          chmod +x ./sing-box
+
+          echo "sing-box version:"
+          ./sing-box version
+
+      - name: Compile JSON rule sets
+        run: |
+          set -e
+
+          shopt -s nullglob
+
+          json_files=(Sing/*.json)
+
+          if [ ${#json_files[@]} -eq 0 ]; then
+            echo "No JSON files found in Sing/"
+            exit 0
+          fi
+
+          echo "Found ${#json_files[@]} JSON file(s):"
+
+          for json in "${json_files[@]}"; do
+            srs="${json%.json}.srs"
+
+            echo
+            echo "========================================"
+            echo "Input : $json"
+            echo "Output: $srs"
+            echo "========================================"
+
+            ./sing-box rule-set compile \
+              --output "$srs" \
+              "$json"
+
+            ls -lh "$srs"
+          done
+
+      - name: Show generated files
+        run: |
+          echo "Generated SRS files:"
+          find Sing -maxdepth 1 -type f -name "*.srs" -print -exec ls -lh {} \;
+
+      - name: Commit and push
+        run: |
+          set -e
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add Sing/*.srs
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Compile Sing JSON rule sets to SRS"
+          git push

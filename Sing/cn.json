@@ -2,51 +2,14 @@
   "version": 2,
   "rules": [
     {
-      "domain_suffix": [
-        "ipv6.msftconnecttest.com",
-        "926123.tv",
-        "zhibodou.com",
-        "xib.cc",
-        "sportsteam668.com",
-        "sportsteam363.com",
-        "zzzb324.com",
-        "926001.tv",
-        "926002.tv",
-        "926003.tv",
-        "515003.tv",
-        "sportsteam356.com",
-        "bdstatic.com",
-        "yumixiu768.com",
-        "zhibo1.cc",
-        "jiatianxiazhuangshi.com",
-        "xzbonlinepull.pq8.co",
-        "125700.shop",
-        "prdasbb18a1.com",
-        "mayizhibo.net",
-        "zzzb393.com",
-        "imasdk.googleapis.com",
-        "ntp.aliyun.com",
-        "qqqrqq.com",
-        "feijing-xzbonlinepull.17kq.fun",
-        "ip.164746.xyz",
-        "ii-587.wwentua.com",
-        "miniprogram.lnitv.com",
-        "bxtv.757888.xyz",
-        "rsfcxq.com",
-        "bfzyapi.com",
-        "pool.ntp.org",
-        "v6.sync.afraid.org",
-        "tmate.io",
-        "164746.xyz",
-        "op.136605.xyz",
-        "mydrivers.com",
-        "assets.msn.cn",
-        "gh-proxy.com"
-      ],
-      "domain_keyword": [
-        "letsencrypt.org",
-        "tyyszy"
-      ] 
+      "domain": [
+        "hmy.us.to",
+        "hhz.pgw.jp",
+        "zhtcl.mydns.bz",
+        "nas1.136605.xyz",
+        "nas.136605.xyz",
+        "httpdns.n.netease.com"
+      ]
     }
   ]
 }
