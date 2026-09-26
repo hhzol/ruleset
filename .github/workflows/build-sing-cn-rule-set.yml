@@ -303,7 +303,7 @@ jobs:
           sha256sum \
             "$OUTPUT_JSON" \
             "$OUTPUT_SRS" \
-            > SHA256SUMS
+            > Sing/SHA256SUMS
 
           cat Sing/SHA256SUMS
 
