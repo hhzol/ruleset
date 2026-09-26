@@ -5,7 +5,7 @@ on:
 
   schedule:
     # 每天北京时间 04:00
-    - cron: "0 20 * * *"
+    - cron: "20 0 * * *"
 
   push:
     paths:
@@ -22,7 +22,7 @@ env:
   APPLE_URL: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/apple.json"
 
   OUTPUT_JSON: "cn-without-ms-apple.json"
-  OUTPUT_SRS: "cn-without-ms-apple.srs"
+  OUTPUT_SRS: "Sing/cn-without-ms-apple.srs"
 
 jobs:
   build:
