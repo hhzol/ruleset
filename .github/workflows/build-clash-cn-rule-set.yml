@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
   schedule:
-    # 每天北京时间 04:00
-    - cron: "22 0 * * *"
+    # 每天北京时间 08:22
+    - cron: "30 21 * * *"
 
   push:
     paths:
@@ -26,11 +26,11 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
