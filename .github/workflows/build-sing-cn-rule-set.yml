@@ -142,7 +142,7 @@ jobs:
           ms_exact, ms_suffix = collect_rule_set(microsoft)
           apple_exact, apple_suffix = collect_rule_set(apple)
 
-          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com"}
+          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com", "zterr.hvs.fj.chinamobile.com", "ott.fj.chinamobile.com"}
 
           CUSTOM_EXCLUDED_SUFFIXES = {"cambridge.org"}
 
