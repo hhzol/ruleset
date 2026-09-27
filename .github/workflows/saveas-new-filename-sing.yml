@@ -1,0 +1,72 @@
+name: Save as New filename Sing Rule Sets
+
+on:
+  schedule:
+    # 每天北京时间 08:00（UTC 00:00）
+    - cron: "0 0 * * *"
+
+  # 允许手动运行
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-rules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download rule sets
+        shell: bash
+        run: |
+          set -e
+
+          mkdir -p Sing
+
+          echo "Downloading cn.srs..."
+          curl -fL --retry 3 --retry-delay 5 \
+            "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs" \
+            -o "Sing/cn_ip.srs"
+
+          echo "Downloading private.srs (geoip)..."
+          curl -fL --retry 3 --retry-delay 5 \
+            "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/private.srs" \
+            -o "Sing/private_ip.srs"
+
+          echo "Downloading private.srs (geosite)..."
+          curl -fL --retry 3 --retry-delay 5 \
+            "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/private.srs" \
+            -o "Sing/private_site.srs"
+
+          echo "Downloaded files:"
+          ls -lh Sing/*.srs
+
+      - name: Check for changes
+        id: changes
+        shell: bash
+        run: |
+          if git diff --quiet -- Sing/*.srs; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Rule sets changed:"
+            git status --short
+          fi
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add Sing/cn_ip.srs
+          git add Sing/private_ip.srs
+          git add Sing/private_site.srs
+
+          git commit -m "chore: update Sing rule sets"
+          git push
