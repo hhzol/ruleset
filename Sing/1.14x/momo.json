@@ -8,7 +8,7 @@
     "rules": [
       {"clash_mode": "direct", "server": "local"},
       {"clash_mode": "global", "server": "foreign"},
-      {"rule_set": ["ad"], "action": "predefined", "rcode": "NOERROR"},
+      {"rule_set": [”category-ads-all“, "ad"], "action": "predefined", "rcode": "NOERROR"},
       {"action": "evaluate", "server": "foreign"},
       {"match_response": true, "rule_set": "cn_ip", "action": "route", "server": "local"},
       {"action": "route", "server": "fakeip", "rewrite_ttl": 1}
@@ -55,7 +55,7 @@
     ],
     "rule_set": [
 		{"tag": ["ad", "us", "cn_ip", "private_ip"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/{tag}.srs"},
-		{"tag": ["private", "category-ai-!cn", "bbc", "spotify", "netflix", "tiktok", "steam", "blizzard"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/{tag}.srs"}
+		{"tag": [”category-ads-all“, "private", "category-ai-!cn", "bbc", "spotify", "netflix", "tiktok", "steam", "blizzard"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/{tag}.srs"}
     ],
     "auto_detect_interface": false,
     "default_http_client": "http1",
