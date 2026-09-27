@@ -70,7 +70,7 @@
     {"type": "tun", "tag": "tun-in", "interface_name": "momo", "address": ["172.19.0.1/30", "fdfe:dcba:9876::1/126"], "mtu": 9000, "auto_route": false, "strict_route": true, "endpoint_independent_nat": true, "stack": "gvisor"}
   ],
   "experimental": {
-    "cache_file": {"enabled": true, "path": "/etc/momo/run/cache1.db", "store_fakeip": true, "store_dns": true},
+    "cache_file": {"enabled": true, "path": "/etc/momo/run/cache.db", "store_fakeip": true, "store_dns": true},
     "clash_api": {"external_controller": "0.0.0.0:9095", "external_ui": "/etc/momo/run/ui", "external_ui_download_url": "https://gh.monlor.com/https://github.com/Zephyruso/zashboard/releases/latest/download/dist-no-fonts.zip", "external_ui_download_detour": "🎯 直连", "secret": "", "default_mode": "rule"}
   },
   "log": {"disabled": false, "level": "warning", "timestamp": true},
