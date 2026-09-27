@@ -1,4 +1,3 @@
-```yaml
 name: Update Sing Rule Sets
 
 on:
@@ -99,4 +98,3 @@ jobs:
 
           git commit -m "chore: update Sing rule sets"
           git push
-```
