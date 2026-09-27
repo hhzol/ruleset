@@ -55,7 +55,7 @@
     ],
     "rule_set": [
 		{"tag": ["ad", "us", "cn", "cn-without-ms-apple", "private_site", "cn_ip", "private_ip"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/{tag}.srs"},
-		{"tag": ["category-ai-!cn", "bbc", "spotify", "netflix", "tiktok", "alibaba", "tencent", "netease", "baidu", "microsoft", "apple", "steam", "blizzard"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/{tag}.srs"}
+		{"tag": ["category-ai-!cn", "bbc", "spotify", "netflix", "tiktok", "alibaba", "tencent", "netease", "baidu", "microsoft", "apple", "steam", "blizzard"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/{tag}.srs"}
     ],
     "auto_detect_interface": false,
     "default_http_client": "http1",
