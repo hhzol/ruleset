@@ -123,7 +123,7 @@ jobs:
 
           ms_apple_exact, ms_apple_suffix = collect_excluded_sets(MICROSOFT_FILE, APPLE_FILE)
 
-          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com", "zterr.hvs.fj.chinamobile.com", "ott.fj.chinamobile.com"}
+          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com"}
 
           CUSTOM_EXCLUDED_SUFFIXES = {"cambridge.org"}
 
