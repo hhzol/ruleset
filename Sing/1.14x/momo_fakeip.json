@@ -50,7 +50,7 @@
 		{"rule_set": ["netflix"], "action": "route", "outbound": "🎬 Netflix"},
 		{"rule_set": ["tiktok"], "action": "route", "outbound": "🎵 TikTok"},
 		{"rule_set": ["cn", "cn-without-ms-apple", "private_site", "alibaba", "tencent", "netease", "baidu", "steam", "blizzard"], "action": "route", "outbound": "🎯 直连"},
-		{"action": "resolve"},
+		{"action": "resolve", "server": "foreign", "strategy": "ipv4_only"},
 		{"rule_set": ["cn_ip", "private_ip"], "action": "route", "outbound": "🎯 直连"}
     ],
     "rule_set": [
