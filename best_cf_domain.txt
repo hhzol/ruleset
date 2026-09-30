@@ -1,15 +1,15 @@
-cf.090227.xyz:443#cf.090227.xyz
-www.visa.com:443#www.visa.com
-mfa.gov.ua:443#mfa.gov.ua
-www.shopify.com:443#www.shopify.com
-store.ubi.com:443#store.ubi.com
-staticdelivery.nexusmods.com:443#staticdelivery.nexusmods.com
-time.is:443#time.is
-icook.hk:443#icook.hk
-icook.tw:443#icook.tw
-cmcc.cloudflare.seeck.cn:443#cmcc.cloudflare.seeck.cn
-csgo.com:443#csgo.com
-cf.877774.xyz:443#cf.877774.xyz
-saas.sin.fan:443#saas.sin.fan
-bestcf.030101.xyz:443#bestcf.030101.xyz
-cloudflare.182682.xyz:443#cloudflare.182682.xyz
+cf.090227.xyz:443#cloudflare (cf.090227.xyz)
+www.visa.com:443#cloudflare (www.visa.com)
+mfa.gov.ua:443#cloudflare (mfa.gov.ua)
+www.shopify.com:443#cloudflare (www.shopify.com)
+store.ubi.com:443#cloudflare (store.ubi.com)
+staticdelivery.nexusmods.com:443#cloudflare (staticdelivery.nexusmods.com)
+time.is:443#cloudflare (time.is)
+icook.hk:443#cloudflare (icook.hk)
+icook.tw:443#cloudflare (icook.tw)
+cmcc.cloudflare.seeck.cn:443#cloudflare (cmcc.cloudflare.seeck.cn)
+csgo.com:443#cloudflare (csgo.com)
+cf.877774.xyz:443#cloudflare (cf.877774.xyz)
+saas.sin.fan:443#cloudflare (saas.sin.fan)
+bestcf.030101.xyz:443#cloudflare (bestcf.030101.xyz)
+cloudflare.182682.xyz:443#cloudflare (cloudflare.182682.xyz)
