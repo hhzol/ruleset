@@ -43,7 +43,7 @@
   "route": {
     "rules": [
 		{"inbound": "dns-in", "action": "hijack-dns"},
-		{"clash_mode": "direct", "outbound": "🎯 直连"},
+		{"clash_mode": "direct", "outbound": "🇨🇳 直连"},
 		{"clash_mode": "global", "outbound": "GLOBAL"},
 		{"rule_set": ["us"], "action": "route", "outbound": "🇺🇲 美国自动"},
 		{"rule_set": ["category-ai-!cn"], "action": "route", "outbound": "🧠 AI"},
@@ -51,7 +51,7 @@
 		{"rule_set": ["spotify"], "action": "route", "outbound": "🎧 Spotify"},
 		{"rule_set": ["netflix"], "action": "route", "outbound": "🎬 Netflix"},
 		{"rule_set": ["tiktok"], "action": "route", "outbound": "🎵 TikTok"},
-		{"rule_set": ["cn_ip", "private_ip", "private", "steam", "blizzard"], "action": "route", "outbound": "🎯 直连"},
+		{"rule_set": ["cn_ip", "private_ip", "private", "steam", "blizzard"], "action": "route", "outbound": "🇨🇳 直连"},
 		{"action": "resolve", "server": "foreign", "strategy": "ipv4_only"}
     ],
     "rule_set": [
