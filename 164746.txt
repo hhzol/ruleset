@@ -1,3 +1,2 @@
-104.18.37.96:443#cloudflare (ip.164746.xyz) 1
-104.18.41.239:443#cloudflare (ip.164746.xyz) 2
-172.64.229.102:443#cloudflare (ip.164746.xyz) 3
+104.18.41.116:443#cloudflare (ip.164746.xyz) 1
+172.64.152.209:443#cloudflare (ip.164746.xyz) 2
