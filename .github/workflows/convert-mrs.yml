@@ -20,50 +20,68 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Get latest Mihomo version
-        id: mihomo
+      - name: Download latest Mihomo
         shell: bash
         run: |
           set -e
-
-          VERSION=$(curl -fsSL https://api.github.com/repos/MetaCubeX/mihomo/releases/latest \
-            | jq -r '.tag_name')
-
-          if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
-            echo "Failed to get latest Mihomo version"
-            exit 1
-          fi
-
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "Latest Mihomo version: $VERSION"
-
-      - name: Download Mihomo
-        shell: bash
-        run: |
-          set -e
-
-          VERSION="${{ steps.mihomo.outputs.version }}"
 
           mkdir -p "$RUNNER_TEMP/mihomo"
 
-          # Remove leading "v", if present
-          VERSION_NUM="${VERSION#v}"
+          echo "Getting latest Mihomo release..."
 
-          URL="https://github.com/MetaCubeX/mihomo/releases/download/${VERSION}/mihomo-linux-amd64-compatible-${VERSION_NUM}.gz"
+          RELEASE_JSON=$(curl -fsSL \
+            --retry 3 \
+            --retry-delay 2 \
+            https://api.github.com/repos/MetaCubeX/mihomo/releases/latest)
+
+          VERSION=$(echo "$RELEASE_JSON" | jq -r '.tag_name')
+
+          if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
+            echo "Failed to get Mihomo version"
+            exit 1
+          fi
+
+          echo "Mihomo version: $VERSION"
+
+          # Find the official Linux amd64 compressed binary.
+          #
+          # Prefer:
+          #   mihomo-linux-amd64-*.gz
+          #
+          # This avoids hard-coding the exact asset filename.
+          DOWNLOAD_URL=$(echo "$RELEASE_JSON" | jq -r '
+            .assets[]
+            | select(.name | test("^mihomo-linux-amd64-.*\\.gz$"))
+            | .browser_download_url
+          ' | head -n 1)
+
+          if [ -z "$DOWNLOAD_URL" ]; then
+            echo "Could not find Linux amd64 Mihomo asset."
+            echo
+            echo "Available Linux amd64 assets:"
+            echo "$RELEASE_JSON" | jq -r '
+              .assets[]
+              | select(.name | test("linux-amd64"))
+              | .name
+            '
+            exit 1
+          fi
 
           echo "Downloading:"
-          echo "$URL"
+          echo "$DOWNLOAD_URL"
 
           curl -fL \
             --retry 3 \
             --retry-delay 2 \
             -o "$RUNNER_TEMP/mihomo/mihomo.gz" \
-            "$URL"
+            "$DOWNLOAD_URL"
 
           gzip -d "$RUNNER_TEMP/mihomo/mihomo.gz"
 
           chmod +x "$RUNNER_TEMP/mihomo/mihomo"
 
+          echo
+          echo "Mihomo version:"
           "$RUNNER_TEMP/mihomo/mihomo" version
 
       - name: Convert ad.yaml to ad.mrs
@@ -76,6 +94,8 @@ jobs:
             exit 1
           fi
 
+          echo "Converting Clash/ad.yaml..."
+
           "$RUNNER_TEMP/mihomo/mihomo" \
             convert-ruleset \
             domain \
@@ -83,9 +103,12 @@ jobs:
             Clash/ad.yaml \
             Clash/ad.mrs
 
-          test -s Clash/ad.mrs
+          if [ ! -s Clash/ad.mrs ]; then
+            echo "Clash/ad.mrs was not generated correctly"
+            exit 1
+          fi
 
-          echo "Generated Clash/ad.mrs"
+          echo "Generated:"
           ls -lh Clash/ad.yaml Clash/ad.mrs
 
       - name: Convert us.yaml to us.mrs
@@ -98,6 +121,8 @@ jobs:
             exit 1
           fi
 
+          echo "Converting Clash/us.yaml..."
+
           "$RUNNER_TEMP/mihomo/mihomo" \
             convert-ruleset \
             domain \
@@ -105,16 +130,19 @@ jobs:
             Clash/us.yaml \
             Clash/us.mrs
 
-          test -s Clash/us.mrs
+          if [ ! -s Clash/us.mrs ]; then
+            echo "Clash/us.mrs was not generated correctly"
+            exit 1
+          fi
 
-          echo "Generated Clash/us.mrs"
+          echo "Generated:"
           ls -lh Clash/us.yaml Clash/us.mrs
 
       - name: Show generated files
         shell: bash
         run: |
           echo "========================================"
-          echo "Generated MRS files:"
+          echo "Generated MRS files"
           echo "========================================"
 
           ls -lh \
