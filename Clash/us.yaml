@@ -1,0 +1,19 @@
+payload:
+- DOMAIN-SUFFIX,tunein.com
+- DOMAIN-SUFFIX,radiotime.com
+- DOMAIN-SUFFIX,tunein.cdnstream1.com
+- DOMAIN-SUFFIX,nbcsportsbayarea.com
+- DOMAIN-SUFFIX,nbcuni.com
+- DOMAIN-SUFFIX,nbcume.sc.omtrdc.net
+- DOMAIN-SUFFIX,media.sportradar.com
+- DOMAIN-SUFFIX,nbcbayarea.com
+- DOMAIN-SUFFIX,telemundoareadelabahia.com
+- DOMAIN-SUFFIX,nbcsports.com
+- DOMAIN-SUFFIX,launchdarkly.com
+- DOMAIN-SUFFIX,theplatform.com
+- DOMAIN-SUFFIX,simplecast.com
+- DOMAIN-SUFFIX,nelreports.net
+- DOMAIN-SUFFIX,paramount.com
+- DOMAIN-SUFFIX,plutotv.net
+- DOMAIN-SUFFIX,pluto.tv
+- DOMAIN-KEYWORD,pluto
