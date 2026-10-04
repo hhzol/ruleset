@@ -138,6 +138,34 @@ jobs:
           echo "Generated:"
           ls -lh Clash/us.yaml Clash/us.mrs
 
+      - name: Convert filter.yaml to filter.mrs
+        shell: bash
+        run: |
+          set -e
+
+          if [ ! -f Clash/filter.yaml ]; then
+            echo "Clash/filter.yaml does not exist"
+            exit 1
+          fi
+
+          echo "Converting Clash/filter.yaml..."
+
+          "$RUNNER_TEMP/mihomo/mihomo" \
+            convert-ruleset \
+            domain \
+            yaml \
+            Clash/filter.yaml \
+            Clash/filter.mrs
+
+          if [ ! -s Clash/filter.mrs ]; then
+            echo "Clash/filter.mrs was not generated correctly"
+            exit 1
+          fi
+
+          echo "Generated:"
+          ls -lh Clash/filter.yaml Clash/filter.mrs
+
+
       - name: Show generated files
         shell: bash
         run: |
@@ -147,7 +175,8 @@ jobs:
 
           ls -lh \
             Clash/ad.mrs \
-            Clash/us.mrs
+            Clash/us.mrs \
+            Clash/filter.mrs
 
       - name: Commit and push changes
         shell: bash
@@ -159,7 +188,8 @@ jobs:
 
           git add \
             Clash/ad.mrs \
-            Clash/us.mrs
+            Clash/us.mrs \
+            Clash/filter.mrs
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
@@ -170,4 +200,3 @@ jobs:
             -m "chore: update Clash MRS rulesets"
 
           git push
-
