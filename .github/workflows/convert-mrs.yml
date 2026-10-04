@@ -1,4 +1,3 @@
-```yaml
 name: Convert Clash Rules to MRS
 
 on:
@@ -143,4 +142,4 @@ jobs:
             -m "chore: update Clash MRS rulesets"
 
           git push
-```
+
