@@ -61,7 +61,6 @@ jobs:
       - name: Remove Microsoft and Apple domains from Clash rules
         run: |
           cat > /tmp/remove_clash_domains.py <<'PY'
-          import sys
           import yaml
 
           CN_FILE = "source_clash/cn.yaml"
@@ -72,60 +71,86 @@ jobs:
           def load_payload(path):
               with open(path, "r", encoding="utf-8") as f:
                   data = yaml.safe_load(f)
+
               if isinstance(data, dict):
                   return data.get("payload", [])
               elif isinstance(data, list):
                   return data
+
               return []
 
           def parse_rule_item(item):
               item = str(item).strip()
+
               if item.startswith("+."):
                   return "suffix", item[2:].lower().rstrip(".")
+
               elif item.startswith("."):
                   return "suffix", item[1:].lower().rstrip(".")
+
               elif item.startswith("DOMAIN-SUFFIX,"):
                   return "suffix", item.split(",", 1)[1].strip().lower().rstrip(".")
+
               elif item.startswith("DOMAIN,"):
                   return "exact", item.split(",", 1)[1].strip().lower().rstrip(".")
+
               else:
                   return "exact", item.lower().rstrip(".")
 
           def collect_excluded_sets(*files):
               exact_set = set()
               suffix_set = set()
+
               for f in files:
                   payload = load_payload(f)
+
                   for item in payload:
                       rule_type, domain = parse_rule_item(item)
+
                       if rule_type == "exact":
                           exact_set.add(domain)
                       else:
                           suffix_set.add(domain)
+
               return exact_set, suffix_set
 
           def matches_rule(item, excluded_exact, excluded_suffix):
               rule_type, domain = parse_rule_item(item)
-              
+
               if rule_type == "exact":
                   if domain in excluded_exact:
                       return True
+
                   for sfx in excluded_suffix:
                       if domain == sfx or domain.endswith("." + sfx):
                           return True
+
               elif rule_type == "suffix":
                   if domain in excluded_exact:
                       return True
+
                   for sfx in excluded_suffix:
                       if domain == sfx or domain.endswith("." + sfx):
                           return True
+
               return False
 
-          ms_apple_exact, ms_apple_suffix = collect_excluded_sets(MICROSOFT_FILE, APPLE_FILE)
+          # ========================================
+          # Collect Microsoft / Apple exclusions
+          # ========================================
 
-          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com"}
+          ms_apple_exact, ms_apple_suffix = collect_excluded_sets(
+              MICROSOFT_FILE,
+              APPLE_FILE
+          )
 
-          CUSTOM_EXCLUDED_SUFFIXES = {"cambridge.org"}
+          # ========================================
+          # Custom exclusions
+          # ========================================
+
+          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com",}
+
+          CUSTOM_EXCLUDED_SUFFIXES = {"cambridge.org",}
 
           for domain in CUSTOM_EXCLUDED_EXACT:
               _, parsed_domain = parse_rule_item(domain)
@@ -135,26 +160,81 @@ jobs:
               _, parsed_domain = parse_rule_item(domain)
               ms_apple_suffix.add(parsed_domain)
 
+          # ========================================
+          # Load CN rules
+          # ========================================
+
           with open(CN_FILE, "r", encoding="utf-8") as f:
               cn_data = yaml.safe_load(f)
 
-          original_payload = cn_data.get("payload", []) if isinstance(cn_data, dict) else cn_data
+          original_payload = (
+              cn_data.get("payload", [])
+              if isinstance(cn_data, dict)
+              else cn_data
+          )
+
           new_payload = []
           removed_count = 0
 
+          # ========================================
+          # Remove Microsoft / Apple / custom rules
+          # ========================================
+
           for item in original_payload:
-              if matches_rule(item, ms_apple_exact, ms_apple_suffix):
+              if matches_rule(
+                  item,
+                  ms_apple_exact,
+                  ms_apple_suffix
+              ):
                   removed_count += 1
               else:
                   new_payload.append(item)
 
+          # ========================================
+          # Custom additions
+          # ========================================
+
+          CUSTOM_ADDED_EXACT = ["hmy.us.to","hhz.pgw.jp","zhtcl.mydns.bz",]
+
+          CUSTOM_ADDED_SUFFIXES = ["136605.xyz",]
+
+          # Add DOMAIN rules
+          for domain in CUSTOM_ADDED_EXACT:
+              new_payload.append(
+                  f"DOMAIN,{domain}"
+              )
+
+          # Add DOMAIN-SUFFIX rules
+          for domain in CUSTOM_ADDED_SUFFIXES:
+              new_payload.append(
+                  f"DOMAIN-SUFFIX,{domain}"
+              )
+
+          added_exact_count = len(CUSTOM_ADDED_EXACT)
+          added_suffix_count = len(CUSTOM_ADDED_SUFFIXES)
+
+          # ========================================
+          # Write output
+          # ========================================
+
           if isinstance(cn_data, dict):
               cn_data["payload"] = new_payload
           else:
-              cn_data = {"payload": new_payload}
+              cn_data = {
+                  "payload": new_payload
+              }
 
           with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-              yaml.dump(cn_data, f, allow_unicode=True, sort_keys=False)
+              yaml.dump(
+                  cn_data,
+                  f,
+                  allow_unicode=True,
+                  sort_keys=False
+              )
+
+          # ========================================
+          # Statistics
+          # ========================================
 
           print("========================================")
           print("Clash CN rule-set processing completed")
@@ -162,6 +242,8 @@ jobs:
           print(f"Excluded exact domains : {len(ms_apple_exact)}")
           print(f"Excluded suffixes      : {len(ms_apple_suffix)}")
           print(f"Removed items          : {removed_count}")
+          print(f"Added exact domains    : {added_exact_count}")
+          print(f"Added suffixes         : {added_suffix_count}")
           print(f"Remaining items        : {len(new_payload)}")
           print(f"Output                 : {OUTPUT_FILE}")
           print("========================================")
@@ -189,14 +271,23 @@ jobs:
         run: |
           set -e
 
-          /tmp/mihomo convert-ruleset domain yaml "$OUTPUT_YAML" "$OUTPUT_MRS"
+          /tmp/mihomo \
+            convert-ruleset \
+            domain \
+            yaml \
+            "$OUTPUT_YAML" \
+            "$OUTPUT_MRS"
 
           echo "Compiled MRS:"
           ls -lh "$OUTPUT_MRS"
 
       - name: Generate checksum
         run: |
-          sha256sum "$OUTPUT_YAML" "$OUTPUT_MRS" > Clash/SHA256SUMS
+          sha256sum \
+            "$OUTPUT_YAML" \
+            "$OUTPUT_MRS" \
+            > Clash/SHA256SUMS
+
           cat Clash/SHA256SUMS
 
       - name: Commit generated files
@@ -206,12 +297,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]"
 
-          git add "$OUTPUT_YAML" "$OUTPUT_MRS" Clash/SHA256SUMS
+          git add \
+            "$OUTPUT_YAML" \
+            "$OUTPUT_MRS" \
+            Clash/SHA256SUMS
 
           if git diff --cached --quiet; then
             echo "No changes."
             exit 0
           fi
 
-          git commit -m "build: update Clash CN rule-set (yaml & mrs)"
+          git commit \
+            -m "build: update Clash CN rule-set (yaml & mrs)"
+
           git push
+
