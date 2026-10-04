@@ -82,7 +82,7 @@ jobs:
 
           echo
           echo "Mihomo version:"
-          "$RUNNER_TEMP/mihomo/mihomo" version
+          "$RUNNER_TEMP/mihomo/mihomo" -v
 
       - name: Convert ad.yaml to ad.mrs
         shell: bash
