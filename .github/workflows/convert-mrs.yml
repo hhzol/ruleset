@@ -5,6 +5,7 @@ on:
     paths:
       - 'Clash/ad.yaml'
       - 'Clash/us.yaml'
+      - 'Clash/filter.yaml'
       - '.github/workflows/convert-mrs.yml'
 
   workflow_dispatch:
