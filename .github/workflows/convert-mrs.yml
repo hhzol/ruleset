@@ -1,0 +1,146 @@
+```yaml
+name: Convert Clash Rules to MRS
+
+on:
+  push:
+    paths:
+      - 'Clash/ad.yaml'
+      - 'Clash/us.yaml'
+      - '.github/workflows/convert-mrs.yml'
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest Mihomo version
+        id: mihomo
+        shell: bash
+        run: |
+          set -e
+
+          VERSION=$(curl -fsSL https://api.github.com/repos/MetaCubeX/mihomo/releases/latest \
+            | jq -r '.tag_name')
+
+          if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
+            echo "Failed to get latest Mihomo version"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Latest Mihomo version: $VERSION"
+
+      - name: Download Mihomo
+        shell: bash
+        run: |
+          set -e
+
+          VERSION="${{ steps.mihomo.outputs.version }}"
+
+          mkdir -p "$RUNNER_TEMP/mihomo"
+
+          # Remove leading "v", if present
+          VERSION_NUM="${VERSION#v}"
+
+          URL="https://github.com/MetaCubeX/mihomo/releases/download/${VERSION}/mihomo-linux-amd64-compatible-${VERSION_NUM}.gz"
+
+          echo "Downloading:"
+          echo "$URL"
+
+          curl -fL \
+            --retry 3 \
+            --retry-delay 2 \
+            -o "$RUNNER_TEMP/mihomo/mihomo.gz" \
+            "$URL"
+
+          gzip -d "$RUNNER_TEMP/mihomo/mihomo.gz"
+
+          chmod +x "$RUNNER_TEMP/mihomo/mihomo"
+
+          "$RUNNER_TEMP/mihomo/mihomo" version
+
+      - name: Convert ad.yaml to ad.mrs
+        shell: bash
+        run: |
+          set -e
+
+          if [ ! -f Clash/ad.yaml ]; then
+            echo "Clash/ad.yaml does not exist"
+            exit 1
+          fi
+
+          "$RUNNER_TEMP/mihomo/mihomo" \
+            convert-ruleset \
+            domain \
+            yaml \
+            Clash/ad.yaml \
+            Clash/ad.mrs
+
+          test -s Clash/ad.mrs
+
+          echo "Generated Clash/ad.mrs"
+          ls -lh Clash/ad.yaml Clash/ad.mrs
+
+      - name: Convert us.yaml to us.mrs
+        shell: bash
+        run: |
+          set -e
+
+          if [ ! -f Clash/us.yaml ]; then
+            echo "Clash/us.yaml does not exist"
+            exit 1
+          fi
+
+          "$RUNNER_TEMP/mihomo/mihomo" \
+            convert-ruleset \
+            domain \
+            yaml \
+            Clash/us.yaml \
+            Clash/us.mrs
+
+          test -s Clash/us.mrs
+
+          echo "Generated Clash/us.mrs"
+          ls -lh Clash/us.yaml Clash/us.mrs
+
+      - name: Show generated files
+        shell: bash
+        run: |
+          echo "========================================"
+          echo "Generated MRS files:"
+          echo "========================================"
+
+          ls -lh \
+            Clash/ad.mrs \
+            Clash/us.mrs
+
+      - name: Commit and push changes
+        shell: bash
+        run: |
+          set -e
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            Clash/ad.mrs \
+            Clash/us.mrs
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit \
+            -m "chore: update Clash MRS rulesets"
+
+          git push
+```
