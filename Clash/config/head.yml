@@ -36,8 +36,8 @@ profile:
   store-fake-ip: true
   
 rule-providers:
-  antiad: {type: http,,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/ad.mrs,interval: 86400,path: ANTIAD.mrs}
-  US: {type: http,,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/us.mrs,interval: 86400,path: US.mrs}
+  antiad: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/ad.mrs,interval: 86400,path: ANTIAD.mrs}
+  US: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/us.mrs,interval: 86400,path: US.mrs}
   AI: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs,path: ai.mrs,interval: 86400}
   bbc: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bbc.mrs,path: bbc.mrs,interval: 86400}
   netflix: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs,path: netflix.mrs,interval: 86400}
