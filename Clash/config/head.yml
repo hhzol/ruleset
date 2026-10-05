@@ -14,7 +14,6 @@ dns:
   proxy-server-nameserver: [quic://223.5.5.5]
   nameserver-policy:
     rule-set:antiad: [rcode:0]
-    rule-set:geosite-cn: [quic://223.5.5.5]
   nameserver: [https://dns.google/dns-query#🐟 漏网之鱼]
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.0/16
