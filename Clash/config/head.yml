@@ -4,9 +4,6 @@ bind-address: '*'
 mode: rule
 log-level: info
 
-geox-url:
-  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
-
 dns:
   enable: true
   ipv6: true
@@ -18,8 +15,7 @@ dns:
   nameserver: [https://208.67.222.222/dns-query&ecs=223.5.5.0/24]
   fallback: [https://dns.google/dns-query#🐟 漏网之鱼]
   fallback-filter:
-    geoip: true
-    geoip-code: CN
+    rule-set:geoip-cn
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.0/16
   fake-ip-range6: fc00::/18
