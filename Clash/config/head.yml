@@ -3,7 +3,6 @@ allow-lan: true
 bind-address: '*'
 mode: rule
 log-level: info
-
 dns:
   enable: true
   ipv6: true
