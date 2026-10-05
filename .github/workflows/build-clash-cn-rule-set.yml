@@ -198,16 +198,14 @@ jobs:
 
           CUSTOM_ADDED_SUFFIXES = ["136605.xyz",]
 
-          # Add DOMAIN rules
           for domain in CUSTOM_ADDED_EXACT:
               new_payload.append(
-                  f"DOMAIN,{domain}"
+                  f"+.{domain}"
               )
 
-          # Add DOMAIN-SUFFIX rules
           for domain in CUSTOM_ADDED_SUFFIXES:
-              new_payload.append(
-                  f"DOMAIN-SUFFIX,{domain}"
+             new_payload.append(
+                  f"+.{domain}"
               )
 
           added_exact_count = len(CUSTOM_ADDED_EXACT)
@@ -311,4 +309,3 @@ jobs:
             -m "build: update Clash CN rule-set (yaml & mrs)"
 
           git push
-
