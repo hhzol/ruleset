@@ -7,7 +7,7 @@ dns:
   enable: true
   ipv6: true
   direct-nameserver: [quic://223.5.5.5]
-  proxy-server-nameserver: [https://223.5.5.5/dns-query]
+  proxy-server-nameserver: [https://208.67.222.222/dns-query]
   nameserver: [https://dns.google/dns-query#🐟 漏网之鱼]
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.0/16
