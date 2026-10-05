@@ -4,14 +4,11 @@ bind-address: '*'
 mode: rule
 log-level: info
 
-geox-url:
-  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
-
 dns:
   enable: true
   ipv6: true
   direct-nameserver: [quic://223.5.5.5]
-  proxy-server-nameserver: [quic://223.5.5.5]
+  proxy-server-nameserver: [https://223.5.5.5/dns-query]
   nameserver-policy:
     rule-set:antiad: [rcode:0]
   nameserver: [https://dns.google/dns-query#🐟 漏网之鱼]
