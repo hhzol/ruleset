@@ -16,27 +16,11 @@ dns:
     - '*.lan'
     - '*.local'
     - rule-set:geosite-cn
-sniffer:
-  enable: true
-  override-destination: false
-  force-dns-mapping: false
-  parse-pure-ip: true
-  sniff:
-    HTTP:
-      ports: [80, 8080-8880]
-    TLS:
-      ports: [443, 8443]
-    QUIC:
-      ports: [443, 8443]
-  skip-domain:
-    - "Mijia Cloud"
-    - "+.push.apple.com"
 profile:
   store-selected: true
   store-fake-ip: true
   
 rule-providers:
-  antiad: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/ad.mrs,interval: 86400,path: antiad.mrs}
   US: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/us.mrs,interval: 86400,path: us.mrs}
   AI: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs,path: ai.mrs,interval: 86400}
   bbc: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bbc.mrs,path: bbc.mrs,interval: 86400}
