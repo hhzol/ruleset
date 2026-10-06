@@ -1,0 +1,96 @@
+{
+  "dns": {
+    "servers": [
+      {"tag": "local", "type": "https", "server": "223.5.5.5", "path": "/dns-query"},
+      {"tag": "foreign", "type": "https", "server": "dns.google", "path": "/dns-query","domain_resolver": "local", "detour": "🐟 漏网之鱼"},  
+      {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18"}
+    ],
+    "rules": [
+      {"clash_mode": "direct", "server": "local"},
+      {"clash_mode": "global", "server": "fakeip"},
+      {"rule_set": ["ad_diy"], "action": "predefined", "rcode": "NOERROR"},
+      {"rule_set": ["fakeipfilter", "geosite_cn", "geosite_private", "tencent", "alibaba"], "server": "local"},
+      {"query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1}
+    ],
+    "final": "foreign",
+    "client_subnet": "0.0.0.0/0"
+  },
+  "outbounds": [
+    {"tag": "🚀 默认代理", "type": "selector", "outbounds": ["♻️ 自动选择", "🥷🏽 翻墙机场", "🌥️ cloudflare", "🖁 CMCC-IPV6", "🐸 手动选择", "🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🎯 直连"]},
+    {"tag": "♻️ 自动选择", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["B Group|cloudflare"]}]},
+    {"tag": "🥷🏽 翻墙机场", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["B Group"]}]},
+    {"tag": "🌥️ cloudflare", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["cloudflare|CF优选"]}]},
+    {"tag": "🖁 CMCC-IPV6", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["CMCC-IPV6"]}]},
+    {"tag": "🧠 AI", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["B Group"]}, {"action": "exclude", "keywords": ["HongKong"]}]},
+    {"tag": "🐸 手动选择", "type": "selector", "outbounds": ["{all}"]},
+    {"tag": "🇭🇰 香港自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇭🇰|HK|香港|港|HongKong"]}]},
+    {"tag": "🇯🇵 日本自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇯🇵|JP|jp|日本|日|Japan|Tokyo"]}]},
+    {"tag": "🇸🇬 狮城自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["新加坡|坡|狮城|SG|Singapore"]}]},
+    {"tag": "🇺🇲 美国自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["美|美国|US|United States|California"]}]},
+    {"tag": "🇬🇧 英国自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇬🇧|gb|UK|uk|英国|英|United Kingdom"]}, {"action": "exclude", "keywords": ["流量"]}]},
+    {"tag": "🪟 Microsoft", "type": "selector", "outbounds": ["🐟 漏网之鱼", "🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🎯 直连"]},
+    {"tag": "🍎 Apple", "type": "selector", "outbounds": ["🐟 漏网之鱼", "🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🎯 直连"]},
+    {"tag": "🎧 Spotify", "type": "selector", "outbounds": ["🐟 漏网之鱼", "🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🐸 手动选择"], "default": "🇭🇰 香港自动"},
+    {"tag": "🎬 Netflix", "type": "selector", "outbounds": ["🐟 漏网之鱼", "🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🐸 手动选择"], "default": "🇯🇵 日本自动"},
+    {"tag": "🎵 TikTok", "type": "selector", "outbounds": ["🐟 漏网之鱼", "🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🐸 手动选择"], "default": "🇸🇬 狮城自动"},
+    {"tag": "🐟 漏网之鱼", "type": "selector", "outbounds": ["🚀 默认代理", "🇸🇬 狮城自动", "🇭🇰 香港自动", "🇯🇵 日本自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🐸 手动选择"]},
+    {"tag": "GLOBAL", "type": "selector", "outbounds": ["🚀 默认代理", "♻️ 自动选择", "🥷🏽 翻墙机场", "🌥️ cloudflare", "🖁 CMCC-IPV6", "🐸 手动选择", "🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🎯 直连"]}, 
+    {"tag": "🎯 直连", "type": "direct"}
+  ],
+  "route": {
+    "rules": [
+      {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
+      {"inbound": "dns-in", "action": "hijack-dns"},
+      {"clash_mode": "direct", "outbound": "🎯 直连"},
+      {"clash_mode": "global", "outbound": "GLOBAL"},
+      {"rule_set": ["proxy_diy"], "action": "route", "outbound": "🐟 漏网之鱼"},
+      {"rule_set": ["microsoft"], "action": "route", "outbound": "🪟 Microsoft"},
+      {"rule_set": ["apple"], "action": "route", "outbound": "🍎 Apple"},
+      {"rule_set": ["us_diy", "ai"], "action": "route", "outbound": "🧠 AI"},
+      {"rule_set": ["bbc"], "action": "route", "outbound": "🇬🇧 英国自动"},
+      {"rule_set": ["spotify"], "action": "route", "outbound": "🎧 Spotify"},
+      {"rule_set": ["tiktok"], "action": "route", "outbound": "🎵 TikTok"},
+      {"rule_set": ["netflix"], "action": "route", "outbound": "🎬 Netflix"},
+      {"rule_set": ["geosite_cn", "geosite_private", "tencent", "alibaba", "cn_diy"], "action": "route", "outbound": "🎯 直连"},
+      {"action": "resolve"},
+      {"rule_set": ["geoip_cn", "geoip_private"], "action": "route", "outbound": "🎯 直连"}
+    ],
+    "rule_set": [
+      {"tag": "geoip_cn", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "geosite_cn", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/cn.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "geoip_private", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/private.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "geosite_private", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/private.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "ad", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "ad_diy", "type": "remote", "format": "source", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ACL4SSR/main/Clash/config/ad.json", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "us_diy", "type": "remote", "format": "source", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ACL4SSR/main/Clash/config/us.json", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "uk_diy", "type": "remote", "format": "source", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ACL4SSR/main/Clash/config/uk.json", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "proxy_diy", "type": "remote", "format": "source", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ACL4SSR/main/Clash/config/proxy.json", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "cn_diy", "type": "remote", "format": "source", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ACL4SSR/main/Clash/config/cn.json", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "fakeipfilter", "type": "remote", "format": "source", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ACL4SSR/main/Clash/config/fakeipfilter.json", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "ai", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ai-!cn.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "bbc", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/BBC/BBC.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "microsoft", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/Microsoft/Microsoft.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "apple", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/Apple/Apple.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "spotify", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/Spotify/Spotify.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "tiktok", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/TikTok/TikTok.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "netflix", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/Netflix/Netflix.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "tencent", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/Tencent/Tencent.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "alibaba", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/Alibaba/Alibaba.srs", "download_detour": "🎯 直连", "update_interval": "24h"}
+    ],
+    "auto_detect_interface": false,
+    "default_domain_resolver": "local",
+    "final": "🐟 漏网之鱼"
+  },
+  "inbounds": [
+    {"type": "direct", "tag": "dns-in", "listen": "::", "listen_port": 5333},
+    {"type": "mixed",  "tag": "mixed-in", "listen": "::", "listen_port": 5330, "set_system_proxy": false},
+    {"type": "redirect", "tag": "redirect-in", "listen": "::", "listen_port": 5331},
+    {"type": "tproxy", "tag": "tproxy-in", "listen": "::", "listen_port": 5332, "network": "udp"},
+    {"type": "tun", "tag": "tun-in", "interface_name": "momo", "address": ["172.19.0.1/30", "fdfe:dcba:9876::1/126"], "mtu": 9000, "auto_route": false, "strict_route": true, "endpoint_independent_nat": true, "stack": "gvisor"}
+  ],
+  "experimental": {
+    "cache_file": {"enabled": true, "path": "/etc/momo/run/cache1.db", "store_fakeip": true},
+    "clash_api": {"external_controller": "0.0.0.0:9095", "external_ui": "/etc/momo/run/ui", "external_ui_download_url": "https://gh.monlor.com/https://github.com/Zephyruso/zashboard/releases/latest/download/dist-no-fonts.zip", "external_ui_download_detour": "🎯 直连", "secret": "", "default_mode": "rule"}
+  },
+  "log": {"disabled": false, "level": "warning", "timestamp": true}
+}
