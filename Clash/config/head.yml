@@ -32,6 +32,6 @@ rule-providers:
   tiktok: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs,path: tiktok.mrs,interval: 86400}
   geosite-private: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs,path: geosite-private.mrs,interval: 86400}
   geoip-private: {type: http,format: mrs,behavior: ipcidr,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs,path: geoip-private.mrs,interval: 86400}
-  geosite-cn: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs,path: geosite-cn.mrs,interval: 86400}
+  geosite-cn: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/cn-without-ms-apple.mrs,path: geosite-cn.mrs,interval: 86400}
   geoip-cn: {type: http,format: mrs,behavior: ipcidr,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs,path: geoip-cn.mrs,interval: 86400}
   
