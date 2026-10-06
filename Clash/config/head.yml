@@ -3,12 +3,23 @@ allow-lan: true
 bind-address: '*'
 mode: rule
 log-level: info
+
+geox-url:
+  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+
 dns:
   enable: true
   ipv6: true
-  direct-nameserver: [quic://223.5.5.5]
-  proxy-server-nameserver: [https://223.5.5.5/dns-query]
-  nameserver: [https://dns.google/dns-query#🐟 漏网之鱼]
+  default-nameserver: [quic://223.5.5.5/]
+  proxy-server-nameserver: [quic://223.5.5.5]
+  nameserver-policy:
+    rule-set:antiad: [rcode:0]
+    rule-set:geosite-cn: [quic://223.5.5.5]
+  nameserver: [https://208.67.222.222/dns-query&ecs=223.5.5.0/24]
+  fallback: [https://dns.google/dns-query#🐟 漏网之鱼]
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.0/16
   fake-ip-range6: fc00::/18
@@ -21,8 +32,8 @@ profile:
   store-fake-ip: true
   
 rule-providers:
-  antiad: {type: http,behavior: classical,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/ad.yaml,interval: 86400,path: ad.yaml}
-  US: {type: http,behavior: classical,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/us.yaml,interval: 86400,path: us.yaml}
+  antiad: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/ad.mrs,interval: 86400,path: antiad.mrs}
+  US: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/us.mrs,interval: 86400,path: us.mrs}
   AI: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs,path: ai.mrs,interval: 86400}
   bbc: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bbc.mrs,path: bbc.mrs,interval: 86400}
   netflix: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs,path: netflix.mrs,interval: 86400}
@@ -30,6 +41,6 @@ rule-providers:
   tiktok: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs,path: tiktok.mrs,interval: 86400}
   geosite-private: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs,path: geosite-private.mrs,interval: 86400}
   geoip-private: {type: http,format: mrs,behavior: ipcidr,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs,path: geoip-private.mrs,interval: 86400}
-  geosite-cn: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs,path: geosite-cn.mrs,interval: 86400}
+  geosite-cn: {type: http,format: mrs,behavior: domain,url: https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Clash/cn-without-ms-apple.mrs,path: geosite-cn.mrs,interval: 86400}
   geoip-cn: {type: http,format: mrs,behavior: ipcidr,url: https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs,path: geoip-cn.mrs,interval: 86400}
   
