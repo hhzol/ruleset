@@ -57,7 +57,7 @@
     ],
     "rule_set": [
       {"tag": "geoip_cn", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
-      {"tag": "geosite_cn", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/cn.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "geosite_cn", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol//ruleset/main/Sing/cn-without-ms-apple.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
       {"tag": "geoip_private", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/private.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
       {"tag": "geosite_private", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/private.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
       {"tag": "ad", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
