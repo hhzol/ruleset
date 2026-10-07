@@ -53,7 +53,7 @@
 		{"rule_set": ["netflix"], "action": "route", "outbound": "🎬 Netflix"},
 		{"rule_set": ["tiktok"], "action": "route", "outbound": "🎵 TikTok"},
 		{"rule_set": ["cn_ip", "private_ip", "private"], "action": "route", "outbound": "🇨🇳 直连"},
-		{"action": "resolve", "server": "foreign", "strategy": "ipv4_only"}
+		{"action": "resolve"}
     ],
     "rule_set": [
 		{"tag": ["ad", "us", "cn_ip", "private_ip", "cn-without-ms-apple"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/{tag}.srs"},
