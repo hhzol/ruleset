@@ -11,7 +11,7 @@
       {"rule_set": ["ad_diy_ruleset"], "action": "predefined", "rcode": "NOERROR"},
 	  {"rule_set": ["cn_site_ruleset"], "action": "route", "server": "local"},
       {"action": "evaluate", "server": "foreign"},
-      {"match_response": true, "rule_set": "cn_ip", "action": "route", "server": "local"},
+      {"match_response": true, "rule_set": "cn_ip_ruleset", "action": "route", "server": "local"},
       {"server": "fakeip", "rewrite_ttl": 1}
     ],
     "final": "foreign",
