@@ -8,9 +8,10 @@
     "rules": [
       {"clash_mode": "direct", "server": "local"},
       {"clash_mode": "global", "server": "foreign"},
-      {"rule_set": ["ad_diy_ruleset"], "action": "predefined", "rcode": "NOERROR"},
+      {"rule_set": ["category-ads-all", "ad"], "action": "predefined", "rcode": "NOERROR"},
+	  {"rule_set": ["cn-without-ms-apple"], "action": "route", "server": "local"}
       {"action": "evaluate", "server": "foreign"},
-      {"match_response": true, "rule_set": "cn_ip_ruleset", "action": "route", "server": "local"},
+      {"match_response": true, "rule_set": "cn_ip", "action": "route", "server": "local"},
       {"server": "fakeip", "rewrite_ttl": 1}
     ],
     "final": "foreign",
@@ -54,7 +55,7 @@
 		{"rule_set": ["cn_ip_ruleset", "private_ip_ruleset", "private_site_ruleset", "steam_ruleset", "blizzard_ruleset"], "action": "route", "outbound": "🇨🇳 直连"},
 		{"action": "resolve", "server": "foreign", "strategy": "ipv4_only"}
     ],
-    "rule_set": [{"tag": ["ad_diy_ruleset", "cn_ip_ruleset", "us_diy_ruleset", "ai_ruleset", "bbc_ruleset", "spotify_ruleset", "netflix_ruleset", "tiktok_ruleset", "private_ip_ruleset", "private_site_ruleset", "steam_ruleset", "blizzard_ruleset"], "type": "local", "format": "binary", "path": "{tag}.srs"}],
+    "rule_set": [{"tag": ["ad_diy_ruleset", "cn_ip_ruleset", "us_diy_ruleset", "cn-without-ms-apple", "ai_ruleset", "bbc_ruleset", "spotify_ruleset", "netflix_ruleset", "tiktok_ruleset", "private_ip_ruleset", "private_site_ruleset", "steam_ruleset", "blizzard_ruleset"], "type": "local", "format": "binary", "path": "{tag}.srs"}],
     "auto_detect_interface": false,
     "default_http_client": "http1",
     "default_domain_resolver": "local",
