@@ -72,5 +72,5 @@
     "clash_api": {"external_controller": "0.0.0.0:9095", "external_ui": "ui", "external_ui_download_url": "https://gh.monlor.com/https://github.com/Zephyruso/zashboard/releases/latest/download/dist-no-fonts.zip", "external_ui_download_detour": "🇨🇳 直连", "secret": "", "default_mode": "rule"}
   },
   "log": {"disabled": false, "level": "warning", "timestamp": true},
-  "http_clients": [{"tag": "http1", "detour": "🚀 默认选择"}]
+  "http_clients": [{"tag": "http1", "detour": "♻️ 自动选择"}]
 }
