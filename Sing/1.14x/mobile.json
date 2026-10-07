@@ -9,6 +9,7 @@
       {"clash_mode": "direct", "server": "local"},
       {"clash_mode": "global", "server": "foreign"},
       {"rule_set": ["category-ads-all", "ad"], "action": "predefined", "rcode": "NOERROR"},
+	  {"rule_set": ["cn-without-ms-apple"], "action": "route", "server": "local"}
       {"action": "evaluate", "server": "foreign"},
       {"match_response": true, "rule_set": "cn_ip", "action": "route", "server": "local"},
       {"server": "fakeip", "rewrite_ttl": 1}
@@ -51,12 +52,12 @@
 		{"rule_set": ["spotify"], "action": "route", "outbound": "🎧 Spotify"},
 		{"rule_set": ["netflix"], "action": "route", "outbound": "🎬 Netflix"},
 		{"rule_set": ["tiktok"], "action": "route", "outbound": "🎵 TikTok"},
-		{"rule_set": ["cn_ip", "private_ip", "private", "steam", "blizzard"], "action": "route", "outbound": "🇨🇳 直连"},
-		{"action": "resolve", "server": "foreign", "strategy": "ipv4_only"}
+		{"rule_set": ["cn_ip", "private_ip", "private"], "action": "route", "outbound": "🇨🇳 直连"},
+		{"action": "resolve"}
     ],
     "rule_set": [
-		{"tag": ["ad", "us", "cn_ip", "private_ip"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/{tag}.srs"},
-		{"tag": ["category-ads-all", "private", "category-ai-!cn", "bbc", "spotify", "netflix", "tiktok", "steam", "blizzard"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/{tag}.srs"}
+		{"tag": ["ad", "us", "cn_ip", "private_ip", "cn-without-ms-apple"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/{tag}.srs"},
+		{"tag": ["category-ads-all", "private", "category-ai-!cn", "bbc", "spotify", "netflix", "tiktok"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/{tag}.srs"}
     ],
     "auto_detect_interface": false,
     "default_http_client": "http1",
