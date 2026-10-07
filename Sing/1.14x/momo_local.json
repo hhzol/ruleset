@@ -55,7 +55,7 @@
 		{"rule_set": ["cn_ip_ruleset", "private_ip_ruleset", "private_site_ruleset", "steam_ruleset", "blizzard_ruleset"], "action": "route", "outbound": "🇨🇳 直连"},
 		{"action": "resolve", "server": "foreign", "strategy": "ipv4_only"}
     ],
-    "rule_set": [{"tag": ["ad_diy_ruleset", "cn_ip_ruleset", "us_diy_ruleset", "cn-without-ms-apple", "ai_ruleset", "bbc_ruleset", "spotify_ruleset", "netflix_ruleset", "tiktok_ruleset", "private_ip_ruleset", "private_site_ruleset", "steam_ruleset", "blizzard_ruleset"], "type": "local", "format": "binary", "path": "{tag}.srs"}],
+    "rule_set": [{"tag": ["ad_diy_ruleset", "cn_ip_ruleset", "cn_site_ruleset", "us_diy_ruleset", "ai_ruleset", "bbc_ruleset", "spotify_ruleset", "netflix_ruleset", "tiktok_ruleset", "private_ip_ruleset", "private_site_ruleset", "steam_ruleset", "blizzard_ruleset"], "type": "local", "format": "binary", "path": "{tag}.srs"}],
     "auto_detect_interface": false,
     "default_http_client": "http1",
     "default_domain_resolver": "local",
