@@ -73,5 +73,5 @@
     "clash_api": {"external_controller": "0.0.0.0:9090", "secret": "123456", "default_mode": "rule"}
   },
   "log": {"disabled": false, "level": "warning", "timestamp": true},
-  "http_clients": [{"tag": "http1", "detour": "🚀 默认选择"}]
+  "http_clients": [{"tag": "http1", "detour": "♻️ 自动选择"}]
 }
