@@ -9,7 +9,7 @@
       {"clash_mode": "direct", "server": "local"},
       {"clash_mode": "global", "server": "foreign"},
       {"rule_set": ["category-ads-all", "ad"], "action": "predefined", "rcode": "NOERROR"},
-	  {"rule_set": ["cn-without-ms-apple"], "action": "route", "server": "local"}
+	  {"rule_set": ["cn-without-ms-apple"], "action": "route", "server": "local"},
       {"action": "evaluate", "server": "foreign"},
       {"match_response": true, "rule_set": "cn_ip", "action": "route", "server": "local"},
       {"server": "fakeip", "rewrite_ttl": 1}
