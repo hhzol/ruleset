@@ -59,7 +59,7 @@
 		{"tag": ["ad", "us", "cn_ip", "private_ip", "cn-without-ms-apple"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/{tag}.srs"},
 		{"tag": ["category-ads-all", "private", "category-ai-!cn", "bbc", "spotify", "netflix", "tiktok"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/{tag}.srs"}
     ],
-    "auto_detect_interface": false,
+    "auto_detect_interface": true,
     "default_http_client": "http1",
     "default_domain_resolver": "local",
     "final": "🐟 漏网之鱼"
