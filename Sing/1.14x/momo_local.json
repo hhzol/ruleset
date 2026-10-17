@@ -52,7 +52,7 @@
 		{"rule_set": ["spotify_ruleset"], "action": "route", "outbound": "🎧 Spotify"},
 		{"rule_set": ["netflix_ruleset"], "action": "route", "outbound": "🎬 Netflix"},
 		{"rule_set": ["tiktok_ruleset"], "action": "route", "outbound": "🎵 TikTok"},
-		{"rule_set": ["cn_ip_ruleset", "private_ip_ruleset", "private_site_ruleset"], "action": "route", "outbound": "🇨🇳 直连"},
+		{"rule_set": ["cn_ip_ruleset", "private_ip_ruleset", "private_site_ruleset"], "action": "bypass"},
 		{"action": "resolve", "server": "foreign", "strategy": "ipv4_only"}
     ],
     "rule_set": [{"tag": ["ad_diy_ruleset", "cn_ip_ruleset", "cn_site_ruleset", "us_diy_ruleset", "ai_ruleset", "bbc_ruleset", "spotify_ruleset", "netflix_ruleset", "tiktok_ruleset", "private_ip_ruleset", "private_site_ruleset"], "type": "local", "format": "binary", "path": "{tag}.srs"}],
