@@ -66,7 +66,7 @@
   },
   "inbounds": [
     {"type": "direct", "tag": "dns-in", "listen": "::", "listen_port": 5333},
-    {"type": "tun", "address": ["172.19.0.0/30", "fdfe:dcba:9876::0/126"], "stack": "system", "auto_route": true, "mtu": 9000, "endpoint_independent_nat": true}
+    {"type": "tun", "address": ["172.19.0.0/30", "fdfe:dcba:9876::0/126"], "stack": "system", "auto_route": true, "mtu": 9000}
   ],
   "experimental": {
     "cache_file": {"enabled": true},
