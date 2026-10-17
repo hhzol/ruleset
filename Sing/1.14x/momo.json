@@ -69,7 +69,7 @@
     {"type": "mixed",  "tag": "mixed-in", "listen": "::", "listen_port": 5330, "set_system_proxy": false},
     {"type": "redirect", "tag": "redirect-in", "listen": "::", "listen_port": 5331},
     {"type": "tproxy", "tag": "tproxy-in", "listen": "::", "listen_port": 5332, "network": "udp"},
-    {"type": "tun", "tag": "tun-in", "interface_name": "momo", "address": ["172.19.0.1/30", "fdfe:dcba:9876::1/126"], "mtu": 9000, "auto_route": false, "strict_route": true, "endpoint_independent_nat": true, "stack": "gvisor"}
+    {"type": "tun", "tag": "tun-in", "interface_name": "momo", "address": ["172.19.0.1/30", "fdfe:dcba:9876::1/126"], "mtu": 9000, "auto_route": false, "strict_route": true, "stack": "gvisor"}
   ],
   "experimental": {
     "cache_file": {"enabled": true, "path": "cache.db", "store_fakeip": true, "store_dns": true},
