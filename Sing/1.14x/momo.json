@@ -56,7 +56,7 @@
 		{"action": "resolve"}
     ],
     "rule_set": [
-		{"tag": ["ad", "us", "cn_ip", "private_ip", "cn-without-ms-apple"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/{tag}.srs"},
+		{"tag": ["ad", "us", "cn_ip", "private_ip"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/{tag}.srs"},
 		{"tag": ["category-ads-all", "private", "category-ai-!cn", "bbc", "spotify", "netflix", "tiktok", "cn", "microsoft", "apple"], "type": "remote", "format": "binary", "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/{tag}.srs"}
     ],
     "auto_detect_interface": false,
