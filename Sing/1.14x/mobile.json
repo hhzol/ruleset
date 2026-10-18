@@ -30,7 +30,7 @@
 	{"tag": "🇹🇼 台湾自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇹🇼|TW|台湾|台|TaiWan"]}]},
 	{"tag": "🇯🇵 日本自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇯🇵|JP|jp|日本|日|Japan|Tokyo"]}]},
 	{"tag": "🇸🇬 狮城自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["新加坡|坡|狮城|SG|Singapore"]}]},
-	{"tag": "🇺🇲 美国自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["美|美国|US|United States|California"]}]},
+	{"tag": "🇺🇲 美国自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["美|美国|California"]}]},
 	{"tag": "🇬🇧 英国自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇬🇧|gb|UK|uk|英国|英|United Kingdom"]}]},
 	{"tag": "🇩🇪 德国自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇩🇪|DE|德国|德|Germany|Frankfurt"]}]},   
 	{"tag": "🎧 Spotify", "type": "selector", "outbounds": ["🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🇩🇪 德国自动", "🐸 手动选择"], "default": "🇭🇰 香港自动"},
