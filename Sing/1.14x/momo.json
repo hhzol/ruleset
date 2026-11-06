@@ -23,7 +23,7 @@
 	{"tag": "🎯 翻墙机场", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["B Group"]}]},
 	{"tag": "🌥️ cloudflare", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["cloudflare"]}]},
 	{"tag": "🖁 移动优选", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["bestcfv4"]}]},
-	{"tag": "🛜 CMCC_IPV6", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["CMCC-IPV6"]}]},    
+	{"tag": "🛜 CMCC_IPV6", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["bestcfv6"]}]},    
 	{"tag": "🧠 AI", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["B Group"]}, {"action": "exclude", "keywords": ["HongKong"]}]},
 	{"tag": "🐸 手动选择", "type": "selector", "outbounds": ["{all}"]},
 	{"tag": "🇭🇰 香港自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇭🇰|HK|香港|港|HongKong"]}]},	  
