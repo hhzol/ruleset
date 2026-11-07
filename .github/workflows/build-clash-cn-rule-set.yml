@@ -148,7 +148,7 @@ jobs:
           # Custom exclusions
           # ========================================
 
-          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com","aws.136605.xyz"}
+          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com"}
 
           CUSTOM_EXCLUDED_SUFFIXES = {"cambridge.org",}
 
