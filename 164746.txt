@@ -1,4 +1,6 @@
-172.64.229.230:443#cloudflare (ip.164746.xyz) 1
-104.18.38.232:443#cloudflare (ip.164746.xyz) 2
-104.18.214.173:443#cloudflare (ip.164746.xyz) 3
-104.18.40.237:443#cloudflare (ip.164746.xyz) 4
+104.18.116.80:443#cloudflare (ip.164746.xyz) 1
+104.21.237.216:443#cloudflare (ip.164746.xyz) 2
+104.16.12.37:443#cloudflare (ip.164746.xyz) 3
+104.19.26.164:443#cloudflare (ip.164746.xyz) 4
+104.18.77.97:443#cloudflare (ip.164746.xyz) 5
+104.17.152.244:443#cloudflare (ip.164746.xyz) 6
