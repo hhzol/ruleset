@@ -142,7 +142,7 @@ jobs:
           ms_exact, ms_suffix = collect_rule_set(microsoft)
           apple_exact, apple_suffix = collect_rule_set(apple)
 
-          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com"}
+          CUSTOM_EXCLUDED_EXACT = {"surface-microsoftstore.com", "aws.136605.xyz"}
 
           CUSTOM_EXCLUDED_SUFFIXES = {"cambridge.org"}
 
@@ -218,6 +218,47 @@ jobs:
           ]
 
 
+          # ========================================
+          # Custom additions
+          # ========================================
+
+          # 精确域名（写入 domain 字段）
+          CUSTOM_ADDED_EXACT = ["hmy.us.to", "hhz.pgw.jp", "zhtcl.mydns.bz"]
+
+          # 后缀域名（写入 domain_suffix 字段）
+          CUSTOM_ADDED_SUFFIXES = ["136605.xyz"]
+
+          added_exact_count = 0
+          added_suffix_count = 0
+
+          if CUSTOM_ADDED_EXACT or CUSTOM_ADDED_SUFFIXES:
+              # 找到第一个 rule（没有则新建一个）作为自定义规则的载体
+              if not cn.get("rules"):
+                  cn["rules"] = [{}]
+
+              target_rule = cn["rules"][0]
+
+              if CUSTOM_ADDED_EXACT:
+                  domain_list = target_rule.setdefault("domain", [])
+                  existing = {normalize(d) for d in domain_list}
+                  for domain in CUSTOM_ADDED_EXACT:
+                      d = normalize(domain)
+                      if d not in existing:
+                          domain_list.append(d)
+                          existing.add(d)
+                          added_exact_count += 1
+
+              if CUSTOM_ADDED_SUFFIXES:
+                  suffix_list = target_rule.setdefault("domain_suffix", [])
+                  existing = {normalize(d).lstrip(".") for d in suffix_list}
+                  for domain in CUSTOM_ADDED_SUFFIXES:
+                      d = normalize(domain).lstrip(".")
+                      if d not in existing:
+                          suffix_list.append(d)
+                          existing.add(d)
+                          added_suffix_count += 1
+
+
           with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
               json.dump(
                   cn,
@@ -239,6 +280,8 @@ jobs:
           print(f"Removed domain          : {removed_domain}")
           print(f"Removed domain_suffix   : {removed_domain_suffix}")
           print("----------------------------------------")
+          print(f"Added exact domains     : {added_exact_count}")
+          print(f"Added suffixes          : {added_suffix_count}")
           print(f"Output                  : {OUTPUT_FILE}")
           print("========================================")
           PY
