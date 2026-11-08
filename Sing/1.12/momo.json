@@ -59,8 +59,9 @@
       {"tag": "geosite_cn", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/cn-without-ms-apple.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
       {"tag": "geoip_private", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/private.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
       {"tag": "geosite_private", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/private.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
-      {"tag": "ad_diy", "type": "remote", "format": "source", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/ad.json", "download_detour": "🎯 直连", "update_interval": "24h"},
-      {"tag": "us_diy", "type": "remote", "format": "source", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ruleset/main/Sing/us.json", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "ad", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "ad_diy", "type": "remote", "format": "source", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ACL4SSR/main/Clash/config/ad.json", "download_detour": "🎯 直连", "update_interval": "24h"},
+      {"tag": "us_diy", "type": "remote", "format": "source", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/hhzol/ACL4SSR/main/Clash/config/us.json", "download_detour": "🎯 直连", "update_interval": "24h"},
       {"tag": "ai", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ai-!cn.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
       {"tag": "bbc", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/BBC/BBC.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
       {"tag": "spotify", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/Spotify/Spotify.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
@@ -78,7 +79,7 @@
     {"type": "mixed",  "tag": "mixed-in", "listen": "::", "listen_port": 5330, "set_system_proxy": false},
     {"type": "redirect", "tag": "redirect-in", "listen": "::", "listen_port": 5331},
     {"type": "tproxy", "tag": "tproxy-in", "listen": "::", "listen_port": 5332, "network": "udp"},
-    {"type": "tun", "tag": "tun-in", "interface_name": "momo", "address": ["172.19.0.1/30", "fdfe:dcba:9876::1/126"], "mtu": 9000, "auto_route": false, "strict_route": true, "endpoint_independent_nat": false, "stack": "gvisor"}
+    {"type": "tun", "tag": "tun-in", "interface_name": "momo", "address": ["172.19.0.1/30", "fdfe:dcba:9876::1/126"], "mtu": 9000, "auto_route": false, "strict_route": true, "endpoint_independent_nat": true, "stack": "gvisor"}
   ],
   "experimental": {
     "cache_file": {"enabled": true, "path": "/etc/momo/run/cache1.db", "store_fakeip": true},
