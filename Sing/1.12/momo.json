@@ -53,7 +53,7 @@
       {"rule_set": ["tiktok"], "action": "route", "outbound": "🎵 TikTok"},
       {"rule_set": ["netflix"], "action": "route", "outbound": "🎬 Netflix"},
       {"action": "resolve"},
-      {"rule_set": ["geosite_private", "geoip_cn", "geoip_private"], "action": "route", "outbound": "🎯 直连"}
+      {"rule_set": ["geosite_cn", "geosite_private", "geoip_cn", "geoip_private"], "action": "route", "outbound": "🎯 直连"}
     ],
     "rule_set": [
       {"tag": "geoip_cn", "type": "remote", "format": "binary", "url": "https://gh.monlor.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs", "download_detour": "🎯 直连", "update_interval": "24h"},
