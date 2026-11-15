@@ -53,7 +53,7 @@
 		{"rule_set": ["spotify"], "action": "route", "outbound": "🎧 Spotify"},
 		{"rule_set": ["netflix"], "action": "route", "outbound": "🎬 Netflix"},
 		{"rule_set": ["tiktok"], "action": "route", "outbound": "🎵 TikTok"},
-		{"rule_set": ["cn_ip", "private_ip", "private"], "action": "route", "outbound": "🇨🇳 直连"},
+		{"domain": ["aws.136605.xyz"], "rule_set": ["cn_ip", "private_ip", "private"], "action": "route", "outbound": "🇨🇳 直连"},
 		{"action": "resolve"}
     ],
     "rule_set": [
