@@ -23,7 +23,7 @@
 	{"tag": "🎯 机场节点", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["B Group"]}]},
 	{"tag": "🌐 自建节点", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["-ip-"]}]},
 	{"tag": "🌥️ cloudflare", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["cloudflare"]}]},
-	{"tag": "🖁 移动优选", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["bestcfv4"]}]},
+	{"tag": "🖁 移动优选", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["bestcfv4|Default"]}]},
 	{"tag": "🛜 CMCC_IPV6", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["bestcfv6|CMCC-IPV6"]}]},    
 	{"tag": "🧠 AI", "type": "urltest", "outbounds": ["{all}"], "interval": "30s", "filter": [{"action": "include", "keywords": ["B Group|-ip-"]}, {"action": "exclude", "keywords": ["HongKong"]}]},
 	{"tag": "🐸 手动选择", "type": "selector", "outbounds": ["{all}"]},
