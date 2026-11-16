@@ -35,9 +35,9 @@
 	{"tag": "🇬🇧 英国自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇬🇧|gb|UK|uk|英国|英|United Kingdom"]}]},
 	{"tag": "🇩🇪 德国自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇩🇪|DE|德国|德|Germany|Frankfurt"]}]},   
 	{"tag": "🎧 Spotify", "type": "selector", "outbounds": ["🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🇩🇪 德国自动", "🐸 手动选择"], "default": "🇭🇰 香港自动"},
-	{"tag": "🅱🅱🅲", "type": "selector", "outbounds": ["🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🇩🇪 德国自动", "🐸 手动选择"], "default": "🇩🇪 德国自动"},
+	{"tag": "🅱🅱🅲", "type": "selector", "outbounds": ["🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🇩🇪 德国自动", "🐸 手动选择"], "default": "🇬🇧 英国自动"},
 	{"tag": "🎬 Netflix", "type": "selector", "outbounds": ["🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🇩🇪 德国自动", "🐸 手动选择"], "default": "🇯🇵 日本自动"},
-	{"tag": "🎵 TikTok", "type": "selector", "outbounds": ["🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🇩🇪 德国自动", "🐸 手动选择"], "default": "🇸🇬 狮城自动"},
+	{"tag": "🎵 TikTok", "type": "selector", "outbounds": ["🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🇩🇪 德国自动", "🐸 手动选择"], "default": "🇺🇲 美国自动"},
 	{"tag": "🐟 漏网之鱼", "type": "selector", "outbounds": ["🚀 默认代理", "🇸🇬 狮城自动", "🇭🇰 香港自动", "🇯🇵 日本自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🇩🇪 德国自动", "🐸 手动选择"]},
 	{"tag": "GLOBAL", "type": "selector", "outbounds": ["🚀 默认代理", "♻️ 自动选择", "🎯 机场节点", "🌐 自建节点", "🌥️ cloudflare", "🐸 手动选择", "🇭🇰 香港自动", "🇯🇵 日本自动", "🇸🇬 狮城自动", "🇺🇲 美国自动", "🇬🇧 英国自动", "🇩🇪 德国自动", "🇨🇳 直连"]}, 
 	{"tag": "🇨🇳 直连", "type": "direct"}
