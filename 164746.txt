@@ -1,10 +1,4 @@
-172.64.229.131:443#cloudflare (ip.164746.xyz) 1
-172.64.229.213:443#cloudflare (ip.164746.xyz) 2
-172.64.229.144:443#cloudflare (ip.164746.xyz) 3
-172.64.158.87:443#cloudflare (ip.164746.xyz) 4
-172.64.152.134:443#cloudflare (ip.164746.xyz) 5
-104.18.33.187:443#cloudflare (ip.164746.xyz) 6
-172.64.155.111:443#cloudflare (ip.164746.xyz) 7
-172.64.154.37:443#cloudflare (ip.164746.xyz) 8
-172.64.145.132:443#cloudflare (ip.164746.xyz) 9
-104.18.32.245:443#cloudflare (ip.164746.xyz) 10
+172.64.229.86:443#cloudflare (ip.164746.xyz) 1
+172.64.229.194:443#cloudflare (ip.164746.xyz) 2
+172.64.229.79:443#cloudflare (ip.164746.xyz) 3
+172.64.229.159:443#cloudflare (ip.164746.xyz) 4
