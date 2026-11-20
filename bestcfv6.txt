@@ -1,10 +1,7 @@
-[2606:4700:0:e6:6e3e:3e13:9e5c:8ced]:443#bestcfv6
-[2606:4700::9b:74ad:621:f0f2]:443#bestcfv6
-[2606:4700:0:d036:22aa:d38:60bd:32f1]:443#bestcfv6
-[2606:4700::a52f:583f:4e15:130]:443#bestcfv6
-[2606:4700::a52f:583f:38a7:62ee]:443#bestcfv6
-[2606:4700:0:e6:6ef6:b491:a48d:512f]:443#bestcfv6
-[2606:4700:0:e6:6ef6:b46d:df07:1fca]:443#bestcfv6
-[2606:4700:0:d036:78a5:f72d:e424:6e7f]:443#bestcfv6
-[2606:4700:0:e6:6e3e:111d:fa74:a266]:443#bestcfv6
-[2606:4700::a59f:40b1:ea8c:acb4]:443#bestcfv6
+[2606:4700:0:d5:e7ee:93e0:6f57:2c1a]:443#bestcfv6
+[2606:4700:0:d5:e7c3:f069:4e77:137b]:443#bestcfv6
+[2606:4700:27:bc1d:b364:e227:f743:e5b9]:443#bestcfv6
+[2606:4700:27:bc1d:dfab:ec73:cadf:d350]:443#bestcfv6
+[2606:4700:0:cc62:a99:ec6a:ecf:6dc2]:443#bestcfv6
+[2606:4700:27:bcbb:7216:85c3:2ddb:9cfe]:443#bestcfv6
+[2606:4700:27:bc1d:dff8:73ac:a579:743e]:443#bestcfv6
